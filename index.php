@@ -29,24 +29,25 @@
         $row = $rs->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($row as $item) {
+            #the options to select from in the drop down
             echo '<option value="' . $item["PRODUCT_NAME"] . "|" . $item["PRICE"] . '">' . $item["PRODUCT_NAME"] . "</option>";
         }
         echo '</select><br>';
 
-        #select the quantity for that part
+        #select the quantity for that part (text entry)
         echo '<label for="quantity">Select Quantity:</label>';
         echo '<input type="text" id="quantity" name="quantity"><br>';
 
-        #add to cart
+        #add to cart button
         echo '<br><input type="submit" value="Add to Cart" />';
         echo "</form>";
 
-
+        #if we've recieved a post (add to cart button has been pressed) do this...
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             #inserting the items chosen into shopping cart
             $prepared = $pdo->prepare('INSERT INTO CART (PRODUCT_NAME, QUANTITY, COST) VALUES(?, ?, ?);');
-            $result = $_POST['parts'];
+            $result = $_POST['parts']; #break apart the price and the product name with explode
             $result_explode = explode('|', $result);
             #adding the item to the cart
             if ($prepared->execute(array($result_explode[0], $_POST["quantity"], $result_explode[1] * $_POST["quantity"]))) {
@@ -59,8 +60,8 @@
         }
 
         #go to shopping cart screen
-        echo '<br><form action="https://google.com">';
-        echo '<input type="submit" value="Checkout/Go to Cart" />';
+        echo '<br><form action="cartpage.php">';
+        echo '<input type="submit" value="Go to Cart" />';
         echo '</form>';
 
         #go to employee screen

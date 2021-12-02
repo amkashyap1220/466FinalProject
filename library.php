@@ -1,18 +1,23 @@
 <?php
-function draw_table($rows){
-    echo "<table border=1>";
-    echo "<tr>";
-    foreach ($rows[0] as $key => $value) {
-        echo "<th>$key</th>";
-    }
-    echo "</tr>";
-    foreach ($rows as $row) {
+function draw_table($rows)
+{
+    # this is a simple function to draw the tables, feel free to use it, it will save you some time. - Alex
+    if (!empty($rows)) {
+        echo "<table border=1>";
         echo "<tr>";
-        foreach ($row as $item) {
-            echo "<td>$item</td>";
+        foreach ($rows[0] as $key => $value) {
+            echo "<th>$key</th>";
         }
         echo "</tr>";
+        foreach ($rows as $row) {
+            echo "<tr>";
+            foreach ($row as $item) {
+                echo "<td>$item</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "<br>Empty...";
     }
-    echo "</table>";
 }
-?>
