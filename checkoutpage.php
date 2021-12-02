@@ -15,14 +15,14 @@
         $dsn = "mysql:host=courses;dbname=z1926618";
         $pdo = new PDO($dsn, $username, $password);
 
-        # TODO Total price
+        # Total price
         $rs = $pdo->query("SELECT COST FROM CART;");
         $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
         $total = 0;
         foreach ($rows as $item) {
             $total = $total + $item['COST'];
         }
-        echo "<h2>Current Total = $" . $total . "</h2>";
+        echo "<h2>Current Total = $" . $total."</h2>";
 
         #checkout
         echo '<form method="post">';
@@ -47,7 +47,7 @@
         echo 'City:<input type="text" name="CITY"><br>';
         #state
         echo 'State:<input type="text" name="STATE"><br>';
-
+    
         #checkout btn
         echo '<br><input type="submit" value="Checkout" /><br>';
         echo "</form>";
@@ -63,12 +63,35 @@
                 # this item is already in the cart!
                 echo "ERROR";
             }
+
+            # update the quantities
+            $rs = $pdo->query("SELECT * FROM CART;");
+            $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
+            foreach ($rows as $item) {
+                #loop through each item in the cart and update the quantity
+                # UPDATE PRODUCTS SET QUANTITY = QUANTITY - 1 WHERE PRODUCT_NAME='NUT';
+                # UPDATE PRODUCTS SET QUANTITY = QUANTITY - $item['QUANTITY'] WHERE PRODUCT_NAME='$item['PRODUCT_NAME']';
+                #$prepared = $pdo->prepare('UPDATE PRODUCTS SET QUANTITY = QUANTITY - ? WHERE PRODUCT_NAME="?";');
+                #$prepared->execute(array($item['QUANTITY'], $item['PRODUCT_NAME']));
+
+                $pdo->exec('UPDATE PRODUCTS SET QUANTITY = QUANTITY - '.$item['QUANTITY'].' WHERE PRODUCT_NAME="'.$item['PRODUCT_NAME'].'";');
+            }
+
+            #clear the cart after a successful purchase
+            $pdo->exec('delete from CART');
         }
+
+        #cancel and go back to cart
+        echo '<br><form action="cartpage.php">';
+        echo '<input type="submit" value="Return cart" />';
+        echo '</form>';
 
         #go to home screen
         echo '<br><form action="index.php">';
         echo '<input type="submit" value="Return to start" />';
         echo '</form>';
+
+
     } catch (PDOexception $e) {
         echo "Connection to database failed: " . $e->getMessage();
     }

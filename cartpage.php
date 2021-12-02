@@ -16,12 +16,12 @@
         $pdo = new PDO($dsn, $username, $password);
 
         # Showing the cart
-        echo "Shopping Cart...";
+        echo "<h2>Shopping Cart</h2>";
         $rs = $pdo->query("SELECT * FROM CART;");
         $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
         draw_table($rows);
 
-        # TODO Total price
+        # Total price
         $rs = $pdo->query("SELECT COST FROM CART;");
         $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
         $total = 0;
@@ -44,6 +44,11 @@
         #go to shopping cart screen
         echo '<br><form action="checkoutpage.php">';
         echo '<input type="submit" value="Checkout" />';
+        echo '</form>';
+
+        #go to home screen
+        echo '<br><form action="index.php">';
+        echo '<input type="submit" value="Return to start" />';
         echo '</form>';
     } catch (PDOexception $e) {
         echo "Connection to database failed: " . $e->getMessage();

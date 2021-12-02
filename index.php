@@ -56,7 +56,7 @@
                 echo "Item added successfully!";
             } else {
                 # this item is already in the cart!
-                echo "ERROR: This item is already in your cart!";
+                echo "ERROR: This item is already in your cart! Remove items from cart and add with the updated quantity please.";
             }
         }
 
