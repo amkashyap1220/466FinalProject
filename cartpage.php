@@ -42,7 +42,7 @@
         }
 
         #go to shopping cart screen
-        echo '<br><form action="https://google.com">';
+        echo '<br><form action="checkoutpage.php">';
         echo '<input type="submit" value="Checkout" />';
         echo '</form>';
     } catch (PDOexception $e) {

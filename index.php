@@ -7,6 +7,7 @@
 
 <body>
     <?php
+    # ALEXANDER KASHYAP DEC 1 2021
     include("creds.php");
     include("library.php");
     try {
@@ -65,7 +66,7 @@
         echo '</form>';
 
         #go to employee screen
-        echo '<br><br><br><br><form action="https://google.com">';
+        echo '<br><br><br><br><form action="empIndex.php">';
         echo '<input type="submit" value="Edit/Employee View" />';
         echo '</form>';
     } catch (PDOexception $e) {
