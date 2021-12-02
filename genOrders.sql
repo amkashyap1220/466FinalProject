@@ -6,7 +6,7 @@
 /** One of the five orders will not be default "processing", but processed. **/
 /** Order total is $60 so we say they order one pair of 'WORK BOOTS' **/
 INSERT INTO ORDERS
-  (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL)
+  (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     'Processed',
     '123456',
@@ -17,13 +17,14 @@ INSERT INTO ORDERS
     '104 Elm St',
     'Aurora',
     'IL',
-    '60'
+    '60',
+    'WORK BOOTS x1'
 );
 
 /** Another of the five orders will not be default "processing", but 'shipped'. **/
 /** Order total is $29 so we say they order one pair of 'BOLT CUTTER' **/
 INSERT INTO ORDERS
-  (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL)
+  (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     'Shipped',
     '121212',
@@ -34,13 +35,14 @@ INSERT INTO ORDERS
     '3029 N Mulch St',
     'Carlisle',
     'NY',
-    '29'
+    '29',
+    'BOLT CUTTER x1'
 );
 
 /** Another of the five orders will not be default "processing", but 'delivered'. **/
 /** Order total is $24 so we say they order one 'CROW BAR' **/
 INSERT INTO ORDERS
-  (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL)
+  (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     'Delivered',
     '505050',
@@ -51,12 +53,13 @@ INSERT INTO ORDERS
     '18 Hampton Ave',
     'Hamburg',
     'TN',
-    '24'
+    '24',
+    'CROW BAR'
 );
 
 /** Order total is $8 so we say they order one pair of 'SAFETY GOGGLES' **/
 INSERT INTO ORDERS
-  (CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL)
+  (CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     '100100',
     'Marcus Cien',
@@ -66,12 +69,13 @@ INSERT INTO ORDERS
     '55 W 23rd St',
     'Burrville',
     'NY',
-    '29'
+    '29',
+    'SAFETY GOGGLES x1'
 );
 
 /** Order total is $35 so we say they order one can of 'PAINT CAN (BLACK)' **/
 INSERT INTO ORDERS
-  (CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL)
+  (CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     '323303',
     'Tommy Trio',
@@ -81,5 +85,6 @@ INSERT INTO ORDERS
     '32 W Third St',
     'Peyton',
     'WY',
-    '35'
+    '35',
+    'PAINT CAN (BLACK) x1'
 );
