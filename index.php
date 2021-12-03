@@ -21,7 +21,7 @@
 
         # Showing all of the products
         echo "ATG, Product list...";
-        $rs = $pdo->query("SELECT * FROM PRODUCTS;");
+        $rs = $pdo->query("SELECT * FROM PRODUCT;");
         $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
         draw_table($rows);
 
@@ -30,7 +30,7 @@
         echo '<form method="post">';
         echo '<br><label for="parts">Select Part:</label>';
         echo '<select id="parts" name="parts">';
-        $rs = $pdo->query("SELECT PRODUCT_NAME, PRICE FROM PRODUCTS;");
+        $rs = $pdo->query("SELECT PRODUCT_NAME, PRICE FROM PRODUCT;");
         $row = $rs->fetchAll(PDO::FETCH_ASSOC);
         echo '<option value="">Select Part</option>';
         foreach ($row as $item) {

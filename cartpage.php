@@ -90,7 +90,7 @@
             }
             if (isset($_POST['parts'])) {
                 $pdo->exec('UPDATE CART SET QUANTITY = ' . $_POST['quantity'] . ' WHERE PRODUCT_NAME="' . $_POST['parts'] . '";');
-                $rs = $pdo->query('select PRICE from PRODUCTS where PRODUCT_NAME="' . $_POST['parts'] . '";');
+                $rs = $pdo->query('select PRICE from PRODUCT where PRODUCT_NAME="' . $_POST['parts'] . '";');
                 $row = $rs->fetch(PDO::FETCH_ASSOC);
                 $newcost = $row['PRICE'] * $_POST['quantity'];
                 $pdo->exec('UPDATE CART SET COST = ' . $newcost . ' WHERE PRODUCT_NAME="' . $_POST['parts'] . '";');
