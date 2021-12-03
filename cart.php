@@ -1,3 +1,9 @@
+/*
+Trevor Janis
+Z1839641
+12/1/2021
+Cart intitalization & session variables instantiated
+*/
 <?php
 	error_reporting(E_ALL);
 	include("login.php");
