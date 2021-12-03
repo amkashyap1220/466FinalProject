@@ -36,50 +36,51 @@
             $total = $total + $item['COST'];
         }
         echo "<br><h3>Current Total = $" . $total . "</h3>";
+    ?>
 
-        ### Update quanity of select item from a drop down
-        echo '<br><br>Update Quantity:';
-        echo '<form method="post">';
-        echo '<label for="parts">Item from cart:</label>';
-        echo '<select id="parts" name="parts">';
-        $rs = $pdo->query("SELECT PRODUCT_NAME FROM CART;");
-        $row = $rs->fetchAll(PDO::FETCH_ASSOC);
-        echo '<option value="">Select Part</option>';
-        foreach ($row as $item) {
-            #the options to select from in the drop down
-            echo '<option value="' . $item["PRODUCT_NAME"] . '">' . $item["PRODUCT_NAME"] . "</option>";
-        }
-        echo '</select>';
+        <br><br>Update Quantity:
+        <form method="post">
+            <label for="parts">Item from cart:</label>
+            <select id="parts" name="parts">
+                <?php
+                $rs = $pdo->query("SELECT PRODUCT_NAME FROM CART;");
+                $row = $rs->fetchAll(PDO::FETCH_ASSOC);
+                echo '<option value="">Select Part</option>';
+                foreach ($row as $item) {
+                    #the options to select from in the drop down
+                    echo '<option value="' . $item["PRODUCT_NAME"] . '">' . $item["PRODUCT_NAME"] . "</option>";
+                }
+                ?>
+            </select>
+            <label for="quantity">New Quantity:</label>
+            <input type="text" id="quantity" name="quantity">
 
-        #input the new quantity for that part you want to change
-        echo '<label for="quantity">New Quantity:</label>';
-        echo '<input type="text" id="quantity" name="quantity">';
+            <input type="submit" value="Update" />
+        </form>
 
-        # hit the update button to update...
-        echo '<input type="submit" value="Update" />';
-        echo "</form>";
 
-        ### clear aselect item
-        echo '<br>Remove Item:';
-        echo '<form method="post">';
-        echo '<label for="rpart">Item from cart:</label>';
-        echo '<select id="rpart" name="rpart">';
-        $rs = $pdo->query("SELECT PRODUCT_NAME FROM CART;");
-        $row = $rs->fetchAll(PDO::FETCH_ASSOC);
-        echo '<option value="">Select Part</option>';
-        foreach ($row as $item) {
-            #the options to select from in the drop down
-            echo '<option value="' . $item["PRODUCT_NAME"] . '">' . $item["PRODUCT_NAME"] . "</option>";
-        }
-        echo '</select>';
-        echo '<input type="submit" value="Remove" />';
-        echo "</form>";
+        <br>Remove Item:
+        <form method="post">
+            <label for="rpart">Item from cart:</label>
+            <select id="rpart" name="rpart">
+                <?php
+                $rs = $pdo->query("SELECT PRODUCT_NAME FROM CART;");
+                $row = $rs->fetchAll(PDO::FETCH_ASSOC);
+                echo '<option value="">Select Part</option>';
+                foreach ($row as $item) {
+                    #the options to select from in the drop down
+                    echo '<option value="' . $item["PRODUCT_NAME"] . '">' . $item["PRODUCT_NAME"] . "</option>";
+                }
+                ?>
+            </select>
+            <input type="submit" value="Remove" />
+        </form>
 
-        #clear entire cart vutton
-        echo '<form method="post">';
-        echo '<br><input type="submit" name="clear" value="Clear Entire Cart" />';
-        echo "</form>";
 
+        <form method="post">
+            <br><input type="submit" name="clear" value="Clear Entire Cart" />
+        </form>
+        <?php
         #if we've recieved a post (clear cart button has been pressed) do this...
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             #clear the cart ...
@@ -90,7 +91,7 @@
             }
             if (isset($_POST['parts'])) {
                 $pdo->exec('UPDATE CART SET QUANTITY = ' . $_POST['quantity'] . ' WHERE PRODUCT_NAME="' . $_POST['parts'] . '";');
-                $rs = $pdo->query('select PRICE from PRODUCTS where PRODUCT_NAME="' . $_POST['parts'] . '";');
+                $rs = $pdo->query('select PRICE from PRODUCT where PRODUCT_NAME="' . $_POST['parts'] . '";');
                 $row = $rs->fetch(PDO::FETCH_ASSOC);
                 $newcost = $row['PRICE'] * $_POST['quantity'];
                 $pdo->exec('UPDATE CART SET COST = ' . $newcost . ' WHERE PRODUCT_NAME="' . $_POST['parts'] . '";');
@@ -104,21 +105,21 @@
                 echo "<meta http-equiv='refresh' content='0'>";
             }
         }
+        ?>
 
-        #go to shopping cart screen
-        echo '<br><form action="checkoutpage.php">';
-        echo '<input type="submit" value="Checkout" />';
-        echo '</form>';
+        <br>
+        <form action="checkoutpage.php">
+            <input type="submit" value="Checkout" />
+        </form>
 
-        #go to home screen
-        echo '<br><form action="index.php">';
-        echo '<input type="submit" value="Return to start" />';
-        echo '</form>';
+        <br>
+        <form action="index.php">
+            <input type="submit" value="Return to start" />
+        </form>
+    <?php
     } catch (PDOexception $e) {
         echo "Connection to database failed: " . $e->getMessage();
     }
-
-
     ?>
 </body>
 

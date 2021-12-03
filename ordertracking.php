@@ -34,13 +34,16 @@
 
         # display the tracking info.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $rs = $pdo->query("SELECT STATUS, TOTAL FROM ORDERS where ORDER_NUMBER=" . $_POST['ordernum'] . ';');
+            $rs = $pdo->query("SELECT STATUS, TOTAL FROM `ORDER` where ORDER_NUMBER=" . $_POST['ordernum'] . ';');
             $row = $rs->fetch(PDO::FETCH_ASSOC);
             echo "Current Status: ";
             echo $row['STATUS'];
             echo '<br>Order Total: ';
             echo $row['TOTAL'];
         }
+        echo '<br><form action="index.php">';
+        echo '<input type="submit" value="Return to start" />';
+        echo '</form>';
     } catch (PDOexception $e) {
         echo "Connection to database failed: " . $e->getMessage();
     }

@@ -21,32 +21,33 @@
 
         # Showing all of the products
         echo "ATG, Product list...";
-        $rs = $pdo->query("SELECT * FROM PRODUCTS;");
+        $rs = $pdo->query("SELECT * FROM PRODUCT;");
         $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
         draw_table($rows);
+    ?>
 
-        ### the form ###
-        # choosing a part
-        echo '<form method="post">';
-        echo '<br><label for="parts">Select Part:</label>';
-        echo '<select id="parts" name="parts">';
-        $rs = $pdo->query("SELECT PRODUCT_NAME, PRICE FROM PRODUCTS;");
-        $row = $rs->fetchAll(PDO::FETCH_ASSOC);
-        echo '<option value="">Select Part</option>';
-        foreach ($row as $item) {
-            #the options to select from in the drop down
-            echo '<option value="' . $item["PRODUCT_NAME"] . "|" . $item["PRICE"] . '">' . $item["PRODUCT_NAME"] . "</option>";
-        }
-        echo '</select><br>';
+        <form method="post">
+            <br><label for="parts">Select Part:</label>
+            <select id="parts" name="parts">
+                <?php
+                $rs = $pdo->query("SELECT PRODUCT_NAME, PRICE FROM PRODUCT;");
+                $row = $rs->fetchAll(PDO::FETCH_ASSOC);
+                echo '<option value="">Select Part</option>';
+                foreach ($row as $item) {
+                    #the options to select from in the drop down
+                    echo '<option value="' . $item["PRODUCT_NAME"] . "|" . $item["PRICE"] . '">' . $item["PRODUCT_NAME"] . "</option>";
+                }
+                ?>
+            </select><br>
 
-        #select the quantity for that part (text entry)
-        echo '<label for="quantity">Enter Quantity:</label>';
-        echo '<input type="text" id="quantity" name="quantity"><br>';
 
-        #add to cart button
-        echo '<br><input type="submit" value="Add to Cart" />';
-        echo "</form>";
+            <label for="quantity">Enter Quantity:</label>
+            <input type="text" id="quantity" name="quantity"><br>
 
+
+            <br><input type="submit" value="Add to Cart" />
+        </form>
+        <?php
         #if we've recieved a post (add to cart button has been pressed) do this...
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -66,21 +67,24 @@
                 echo "You already had this item in your cart so I updated the quantity for you...";
             }
         }
+        ?>
+        <br>
+        <form action="cartpage.php">
+            <input type="submit" value="Go to Cart" />
+        </form>
 
-        #go to shopping cart screen
-        echo '<br><form action="cartpage.php">';
-        echo '<input type="submit" value="Go to Cart" />';
-        echo '</form>';
 
-        #go to order tacking screen
-        echo '<br><form action="ordertracking.php">';
-        echo '<input type="submit" value="Track your order here" />';
-        echo '</form>';
+        <br>
+        <form action="ordertracking.php">
+            <input type="submit" value="Track your order here" />
+        </form>
 
-        #go to employee screen
-        echo '<br><br><br><br><form action="empIndex.php">';
-        echo '<input type="submit" value="Edit/Employee View" />';
-        echo '</form>';
+
+        <br><br><br><br>
+        <form action="empIndex.php">
+            <input type="submit" value="Edit/Employee View" />
+        </form>
+    <?php
     } catch (PDOexception $e) {
         echo "Connection to database failed: " . $e->getMessage();
     }

@@ -5,7 +5,7 @@
 
 /** One of the five orders will not be default "processing", but processed. **/
 /** Order total is $60 so we say they order one pair of 'WORK BOOTS' **/
-INSERT INTO ORDERS
+INSERT INTO `ORDER`
   (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     'Processed',
@@ -23,7 +23,7 @@ INSERT INTO ORDERS
 
 /** Another of the five orders will not be default "processing", but 'shipped'. **/
 /** Order total is $29 so we say they order one pair of 'BOLT CUTTER' **/
-INSERT INTO ORDERS
+INSERT INTO `ORDER`
   (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     'Shipped',
@@ -41,7 +41,7 @@ INSERT INTO ORDERS
 
 /** Another of the five orders will not be default "processing", but 'delivered'. **/
 /** Order total is $24 so we say they order one 'CROW BAR' **/
-INSERT INTO ORDERS
+INSERT INTO `ORDER`
   (STATUS, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     'Delivered',
@@ -58,7 +58,7 @@ INSERT INTO ORDERS
 );
 
 /** Order total is $8 so we say they order one pair of 'SAFETY GOGGLES' **/
-INSERT INTO ORDERS
+INSERT INTO `ORDER`
   (CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     '100100',
@@ -74,7 +74,7 @@ INSERT INTO ORDERS
 );
 
 /** Order total is $35 so we say they order one can of 'PAINT CAN (BLACK)' **/
-INSERT INTO ORDERS
+INSERT INTO `ORDER`
   (CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE, TOTAL, NOTES)
   VALUES(
     '323303',
@@ -87,4 +87,52 @@ INSERT INTO ORDERS
     'WY',
     '35',
     'PAINT CAN (BLACK) x1'
+);
+
+/** These are all of the item orders, for simplicity we only had one item on each of these orders, but in practice if a checkout happens we will
+add as many item orders as needed
+ **/
+INSERT INTO ITEM_ORDER
+  (PRODUCT_NAME, ORDER_NUMBER, QUANTITY)
+  VALUES(
+    'WORK BOOTS',
+    '1',
+    '1'
+
+);
+
+INSERT INTO ITEM_ORDER
+  (PRODUCT_NAME, ORDER_NUMBER, QUANTITY)
+  VALUES(
+    'BOLT CUTTER',
+    '2',
+    '1'
+
+);
+
+INSERT INTO ITEM_ORDER
+  (PRODUCT_NAME, ORDER_NUMBER, QUANTITY)
+  VALUES(
+    'SAFETY GOGGLES',
+    '4',
+    '1'
+
+);
+
+INSERT INTO ITEM_ORDER
+  (PRODUCT_NAME, ORDER_NUMBER, QUANTITY)
+  VALUES(
+    'CROW BAR',
+    '3',
+    '1'
+
+);
+
+INSERT INTO ITEM_ORDER
+  (PRODUCT_NAME, ORDER_NUMBER, QUANTITY)
+  VALUES(
+    'PAINT CAN (BLACK)',
+    '5',
+    '1'
+
 );
