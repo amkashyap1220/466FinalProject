@@ -26,7 +26,7 @@
 
         # Showing the order #
         echo "Your order # is: ";
-        $rs = $pdo->query("SELECT ORDER_NUMBER FROM ORDERS ORDER BY ORDER_NUMBER DESC LIMIT 1;");
+        $rs = $pdo->query("SELECT ORDER_NUMBER FROM `ORDER` ORDER BY ORDER_NUMBER DESC LIMIT 1;");
         $row = $rs->fetch(PDO::FETCH_ASSOC);
         echo $row['ORDER_NUMBER'];
 

@@ -34,7 +34,7 @@
 
         # display the tracking info.
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $rs = $pdo->query("SELECT STATUS, TOTAL FROM ORDERS where ORDER_NUMBER=" . $_POST['ordernum'] . ';');
+            $rs = $pdo->query("SELECT STATUS, TOTAL FROM `ORDER` where ORDER_NUMBER=" . $_POST['ordernum'] . ';');
             $row = $rs->fetch(PDO::FETCH_ASSOC);
             echo "Current Status: ";
             echo $row['STATUS'];

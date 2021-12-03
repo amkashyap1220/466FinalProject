@@ -59,7 +59,7 @@
         #if we've recieved a post do this...
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             #creating the order
-            $prepared = $pdo->prepare('INSERT INTO ORDERS (TOTAL, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);');
+            $prepared = $pdo->prepare('INSERT INTO `ORDER` (TOTAL, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);');
             if ($prepared->execute(array($total, $_POST["CARD_NUMBER"], $_POST["CARDHOLDER"], $_POST["CVV"], $_POST["BILLING_ZIP"], $_POST["ZIP"], $_POST["STREET_ADDRESS"], $_POST["CITY"], $_POST["STATE"]))) {
                 # success
                 echo "Purchase Successful!";
@@ -69,17 +69,17 @@
                 $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
                 foreach ($rows as $item) {
 
-                    $pdo->exec('UPDATE PRODUCTS SET QUANTITY = QUANTITY - ' . $item['QUANTITY'] . ' WHERE PRODUCT_NAME="' . $item['PRODUCT_NAME'] . '";');
+                    $pdo->exec('UPDATE PRODUCT SET QUANTITY = QUANTITY - ' . $item['QUANTITY'] . ' WHERE PRODUCT_NAME="' . $item['PRODUCT_NAME'] . '";');
                 }
 
                 #before clearing the cart we have to add the things to the items_ordered table, so emp can look up what items were with that accociated order
-                $rs = $pdo->query("SELECT ORDER_NUMBER FROM ORDERS ORDER BY ORDER_NUMBER DESC LIMIT 1;");
+                $rs = $pdo->query("SELECT ORDER_NUMBER FROM `ORDER` ORDER BY ORDER_NUMBER DESC LIMIT 1;");
                 $row = $rs->fetch(PDO::FETCH_ASSOC);
                 $onum =  $row['ORDER_NUMBER']; # getting the order number for this order
                 # loop through each item in the cart and insert into the items_ordered
                 $rs = $pdo->query("SELECT PRODUCT_NAME, QUANTITY FROM CART;");
                 $row = $rs->fetchAll(PDO::FETCH_ASSOC);
-                $prepared = $pdo->prepare('INSERT INTO ITEMS_ORDERED (ORDER_NUMBER, PRODUCT_NAME, QUANTITY) VALUES(?, ?, ?);');
+                $prepared = $pdo->prepare('INSERT INTO ITEM_ORDER (ORDER_NUMBER, PRODUCT_NAME, QUANTITY) VALUES(?, ?, ?);');
                 foreach ($row as $item) {
                     $prepared->execute(array($onum, $item['PRODUCT_NAME'], $item['QUANTITY']));
                 }
