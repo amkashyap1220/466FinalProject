@@ -72,6 +72,18 @@
                     $pdo->exec('UPDATE PRODUCTS SET QUANTITY = QUANTITY - ' . $item['QUANTITY'] . ' WHERE PRODUCT_NAME="' . $item['PRODUCT_NAME'] . '";');
                 }
 
+                #before clearing the cart we have to add the things to the items_ordered table, so emp can look up what items were with that accociated order
+                $rs = $pdo->query("SELECT ORDER_NUMBER FROM ORDERS ORDER BY ORDER_NUMBER DESC LIMIT 1;");
+                $row = $rs->fetch(PDO::FETCH_ASSOC);
+                $onum =  $row['ORDER_NUMBER']; # getting the order number for this order
+                # loop through each item in the cart and insert into the items_ordered
+                $rs = $pdo->query("SELECT PRODUCT_NAME, QUANTITY FROM CART;");
+                $row = $rs->fetchAll(PDO::FETCH_ASSOC);
+                $prepared = $pdo->prepare('INSERT INTO ITEMS_ORDERED (ORDER_NUMBER, PRODUCT_NAME, QUANTITY) VALUES(?, ?, ?);');
+                foreach ($row as $item) {
+                    $prepared->execute(array($onum, $item['PRODUCT_NAME'], $item['QUANTITY']));
+                }
+
                 #clear the cart after a successful purchase
                 $pdo->exec('delete from CART');
                 header("Location: ordersuccess.php");
