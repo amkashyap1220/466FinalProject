@@ -7,7 +7,11 @@
 
 <body>
     <?php
-    # ALEXANDER KASHYAP DEC 2 2021
+    /*
+        Alexander Kashyap Z1926618
+        DEC 2 2021
+        Group Project
+    */
     include("creds.php");
     include("library.php");
     try {
@@ -22,7 +26,7 @@
         foreach ($rows as $item) {
             $total = $total + $item['COST'];
         }
-        echo "<h2>Current Total = $" . $total."</h2>";
+        echo "<h2>Purchase Total = $" . $total . "</h2>";
 
         #checkout
         echo '<form method="post">';
@@ -47,7 +51,7 @@
         echo 'City:<input type="text" name="CITY"><br>';
         #state
         echo 'State:<input type="text" name="STATE"><br>';
-    
+
         #checkout btn
         echo '<br><input type="submit" value="Checkout" /><br>';
         echo "</form>";
@@ -57,28 +61,24 @@
             #creating the order
             $prepared = $pdo->prepare('INSERT INTO ORDERS (TOTAL, CARD_NUMBER, CARDHOLDER, CVV, BILLING_ZIP, ZIP, STREET_ADDRESS, CITY, STATE) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?);');
             if ($prepared->execute(array($total, $_POST["CARD_NUMBER"], $_POST["CARDHOLDER"], $_POST["CVV"], $_POST["BILLING_ZIP"], $_POST["ZIP"], $_POST["STREET_ADDRESS"], $_POST["CITY"], $_POST["STATE"]))) {
-                # item is not already in the cart
+                # success
                 echo "Purchase Successful!";
+
+                # update the quantities
+                $rs = $pdo->query("SELECT * FROM CART;");
+                $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
+                foreach ($rows as $item) {
+
+                    $pdo->exec('UPDATE PRODUCTS SET QUANTITY = QUANTITY - ' . $item['QUANTITY'] . ' WHERE PRODUCT_NAME="' . $item['PRODUCT_NAME'] . '";');
+                }
+
+                #clear the cart after a successful purchase
+                $pdo->exec('delete from CART');
+                header("Location: ordersuccess.php");
+                exit();
             } else {
-                # this item is already in the cart!
-                echo "ERROR";
+                echo "ERROR: One or more areas was not filled correctly... Try again";
             }
-
-            # update the quantities
-            $rs = $pdo->query("SELECT * FROM CART;");
-            $rows = $rs->fetchAll(PDO::FETCH_ASSOC);
-            foreach ($rows as $item) {
-                #loop through each item in the cart and update the quantity
-                # UPDATE PRODUCTS SET QUANTITY = QUANTITY - 1 WHERE PRODUCT_NAME='NUT';
-                # UPDATE PRODUCTS SET QUANTITY = QUANTITY - $item['QUANTITY'] WHERE PRODUCT_NAME='$item['PRODUCT_NAME']';
-                #$prepared = $pdo->prepare('UPDATE PRODUCTS SET QUANTITY = QUANTITY - ? WHERE PRODUCT_NAME="?";');
-                #$prepared->execute(array($item['QUANTITY'], $item['PRODUCT_NAME']));
-
-                $pdo->exec('UPDATE PRODUCTS SET QUANTITY = QUANTITY - '.$item['QUANTITY'].' WHERE PRODUCT_NAME="'.$item['PRODUCT_NAME'].'";');
-            }
-
-            #clear the cart after a successful purchase
-            $pdo->exec('delete from CART');
         }
 
         #cancel and go back to cart
@@ -90,8 +90,6 @@
         echo '<br><form action="index.php">';
         echo '<input type="submit" value="Return to start" />';
         echo '</form>';
-
-
     } catch (PDOexception $e) {
         echo "Connection to database failed: " . $e->getMessage();
     }

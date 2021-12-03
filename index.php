@@ -7,7 +7,11 @@
 
 <body>
     <?php
-    # ALEXANDER KASHYAP DEC 1 2021
+    /*
+        Alexander Kashyap Z1926618
+        DEC 1 2021
+        Group Project
+    */
     include("creds.php");
     include("library.php");
     try {
@@ -28,7 +32,7 @@
         echo '<select id="parts" name="parts">';
         $rs = $pdo->query("SELECT PRODUCT_NAME, PRICE FROM PRODUCTS;");
         $row = $rs->fetchAll(PDO::FETCH_ASSOC);
-
+        echo '<option value="">Select Part</option>';
         foreach ($row as $item) {
             #the options to select from in the drop down
             echo '<option value="' . $item["PRODUCT_NAME"] . "|" . $item["PRICE"] . '">' . $item["PRODUCT_NAME"] . "</option>";
@@ -36,7 +40,7 @@
         echo '</select><br>';
 
         #select the quantity for that part (text entry)
-        echo '<label for="quantity">Select Quantity:</label>';
+        echo '<label for="quantity">Enter Quantity:</label>';
         echo '<input type="text" id="quantity" name="quantity"><br>';
 
         #add to cart button
@@ -56,13 +60,21 @@
                 echo "Item added successfully!";
             } else {
                 # this item is already in the cart!
-                echo "ERROR: This item is already in your cart! Remove items from cart and add with the updated quantity please.";
+                $pdo->exec('UPDATE CART SET QUANTITY = ' . $_POST['quantity'] . ' WHERE PRODUCT_NAME="' . $result_explode[0] . '";');
+                $newcost = $result_explode[1] * $_POST["quantity"];
+                $pdo->exec('UPDATE CART SET COST = ' . $newcost . ' WHERE PRODUCT_NAME="' . $result_explode[0] . '";');
+                echo "You already had this item in your cart so I updated the quantity for you...";
             }
         }
 
         #go to shopping cart screen
         echo '<br><form action="cartpage.php">';
         echo '<input type="submit" value="Go to Cart" />';
+        echo '</form>';
+
+        #go to order tacking screen
+        echo '<br><form action="ordertracking.php">';
+        echo '<input type="submit" value="Track your order here" />';
         echo '</form>';
 
         #go to employee screen
